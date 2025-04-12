@@ -1,32 +1,37 @@
-// src/pages/Watchlist.js
+// src/pages/StockDetails.js
+import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 
-function Watchlist() {
-  const [watchlist, setWatchlist] = useState([
-    { id: 'AAPL', name: 'Apple Inc.' },
-    { id: 'TSLA', name: 'Tesla Inc.' },
-  ]);
+function StockDetails() {
+  const { id } = useParams();
+  const [isInWatchlist, setIsInWatchlist] = useState(false);
 
-  const removeFromWatchlist = (id) => {
-    setWatchlist((prevWatchlist) => prevWatchlist.filter((stock) => stock.id !== id));
+  const handleWatchlistToggle = () => {
+    setIsInWatchlist(!isInWatchlist);
   };
 
   return (
     <div>
-      <h2 className="page-title">Watchlist</h2>
-      <p className="placeholder-text">
-        {watchlist.length ? 'Your favorite stocks.' : 'No stocks in watchlist.'}
-      </p>
-      <div className="watchlist-container">
-        {watchlist.map((stock) => (
-          <div key={stock.id} className="watchlist-item">
-            <span>{stock.name}</span>
-            <button onClick={() => removeFromWatchlist(stock.id)}>Remove</button>
-          </div>
-        ))}
+      <h2 className="page-title">Stock Details: {id}</h2>
+      <div>
+        <p className="placeholder-text">Placeholder for stock chart.</p>
+        <div className="chart-placeholder">[Chart Placeholder]</div>
+      </div>
+      <div>
+        <p className="placeholder-text">Stock Info</p>
+        <div className="stock-card">
+          <p>Price: $150.25</p>
+          <p>Volume: 1.2M</p>
+          <button
+            className={`button ${isInWatchlist ? 'button-added' : ''}`}
+            onClick={handleWatchlistToggle}
+          >
+            {isInWatchlist ? 'Remove from Watchlist' : 'Add to Watchlist'}
+          </button>
+        </div>
       </div>
     </div>
   );
 }
 
-export default Watchlist;
+export default StockDetails;
